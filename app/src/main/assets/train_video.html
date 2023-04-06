@@ -997,7 +997,7 @@
             body {
                 color: #333;
                 background: #fff;
-                min-width: 1060px;
+                min-width: 400px;
                 font-family: arial, 'Microsoft Yahei';
             }
 
@@ -1007,7 +1007,7 @@
 
             .head {
                 z-index: 301;
-                min-width: 1060px;
+                min-width: 400px;
                 background: #fff;
                 position: fixed;
                 -webkit-transform: translateZ(0);
@@ -1296,7 +1296,7 @@
 
             /* 兼容线上 padding left*/
             .s_tab.s_tab_1z9nv {
-                padding-left: 140px;
+                padding-left: 10px;
             }
         </style>
 
@@ -1453,818 +1453,801 @@
 
 
         <div id="sc_md_s" style="display: none;"></div>
-        <div id="container" class="container_l sam_newgrid">
-            <script>
-                bds.util.setContainerWidth();
-                bds.ready(function () {
-                    $(window).on("resize", function () {
-                        bds.util.setContainerWidth();
-                    });
+
+        <script>
+            bds.util.setContainerWidth();
+            bds.ready(function () {
+                $(window).on("resize", function () {
                     bds.util.setContainerWidth();
                 });
-            </script>
+                bds.util.setContainerWidth();
+            });
+        </script>
 
 
 
-            <script>
-                jQuery && jQuery.extend({
-                    stringify: function stringify(obj) {
-                        if ("JSON" in window) {
-                            return JSON.stringify(obj);
+        <script>
+            jQuery && jQuery.extend({
+                stringify: function stringify(obj) {
+                    if ("JSON" in window) {
+                        return JSON.stringify(obj);
+                    };
+                    var t = typeof (obj);
+                    if (t != "object" || obj === null) {
+                        if (t == "string") { obj = '"' + obj + '"' };
+                        return String(obj);
+                    } else {
+                        var escapeMap = {
+                            "\b": '\\b',
+                            "\t": '\\t',
+                            "\n": '\\n',
+                            "\f": '\\f',
+                            "\r": '\\r',
+                            '"': '\\"',
+                            "\\": '\\\\'
                         };
-                        var t = typeof (obj);
-                        if (t != "object" || obj === null) {
-                            if (t == "string") { obj = '"' + obj + '"' };
-                            return String(obj);
-                        } else {
-                            var escapeMap = {
-                                "\b": '\\b',
-                                "\t": '\\t',
-                                "\n": '\\n',
-                                "\f": '\\f',
-                                "\r": '\\r',
-                                '"': '\\"',
-                                "\\": '\\\\'
-                            };
-                            function encodeString(source) {
-                                if (/["\\\x00-\x1f]/.test(source)) {
-                                    source = source.replace(
-                                        /["\\\x00-\x1f]/g,
-                                        function (match) {
-                                            var c = escapeMap[match];
-                                            if (c) {
-                                                return c;
-                                            }
-                                            c = match.charCodeAt();
-                                            return "\\u00"
-                                                + Math.floor(c / 16).toString(16)
-                                                + (c % 16).toString(16);
-                                        });
-                                }
-                                return '"' + source + '"';
-                            };
-                            function encodeArray(source) {
-                                var result = ["["],
-                                    l = source.length,
-                                    preComma, i, item;
-                                for (i = 0; i < l; i++) {
-                                    item = source[i];
+                        function encodeString(source) {
+                            if (/["\\\x00-\x1f]/.test(source)) {
+                                source = source.replace(
+                                    /["\\\x00-\x1f]/g,
+                                    function (match) {
+                                        var c = escapeMap[match];
+                                        if (c) {
+                                            return c;
+                                        }
+                                        c = match.charCodeAt();
+                                        return "\\u00"
+                                            + Math.floor(c / 16).toString(16)
+                                            + (c % 16).toString(16);
+                                    });
+                            }
+                            return '"' + source + '"';
+                        };
+                        function encodeArray(source) {
+                            var result = ["["],
+                                l = source.length,
+                                preComma, i, item;
+                            for (i = 0; i < l; i++) {
+                                item = source[i];
 
-                                    switch (typeof item) {
-                                        case "undefined":
-                                        case "function":
-                                        case "unknown":
-                                            break;
-                                        default:
-                                            if (preComma) {
-                                                result.push(',');
-                                            }
-                                            result.push($.stringify(item));
-                                            preComma = 1;
-                                    }
+                                switch (typeof item) {
+                                    case "undefined":
+                                    case "function":
+                                    case "unknown":
+                                        break;
+                                    default:
+                                        if (preComma) {
+                                            result.push(',');
+                                        }
+                                        result.push($.stringify(item));
+                                        preComma = 1;
                                 }
-                                result.push("]");
-                                return result.join("");
-                            };
-                            switch (typeof obj) {
-                                case 'undefined':
-                                    return 'undefined';
-                                case 'number':
-                                    return isFinite(obj) ? String(obj) : "null";
-                                case 'string':
-                                    return encodeString(obj);
-                                case 'boolean':
-                                    return String(obj);
-                                default:
-                                    if (obj === null) {
-                                        return 'null';
-                                    } else if (Object.prototype.toString.call(obj) === '[object Array]') {
-                                        return encodeArray(obj);
-                                    } else {
-                                        var result = ['{'],
-                                            encode = $.stringify,
-                                            preComma,
-                                            item;
-                                        for (var key in obj) {
-                                            if (Object.prototype.hasOwnProperty.call(obj, key)) {
-                                                item = obj[key];
-                                                switch (typeof item) {
-                                                    case 'undefined':
-                                                    case 'unknown':
-                                                    case 'function':
-                                                        break;
-                                                    default:
-                                                        if (preComma) {
-                                                            result.push(',');
-                                                        }
-                                                        preComma = 1;
-                                                        result.push(encode(key) + ':' + encode(item));
-                                                }
+                            }
+                            result.push("]");
+                            return result.join("");
+                        };
+                        switch (typeof obj) {
+                            case 'undefined':
+                                return 'undefined';
+                            case 'number':
+                                return isFinite(obj) ? String(obj) : "null";
+                            case 'string':
+                                return encodeString(obj);
+                            case 'boolean':
+                                return String(obj);
+                            default:
+                                if (obj === null) {
+                                    return 'null';
+                                } else if (Object.prototype.toString.call(obj) === '[object Array]') {
+                                    return encodeArray(obj);
+                                } else {
+                                    var result = ['{'],
+                                        encode = $.stringify,
+                                        preComma,
+                                        item;
+                                    for (var key in obj) {
+                                        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+                                            item = obj[key];
+                                            switch (typeof item) {
+                                                case 'undefined':
+                                                case 'unknown':
+                                                case 'function':
+                                                    break;
+                                                default:
+                                                    if (preComma) {
+                                                        result.push(',');
+                                                    }
+                                                    preComma = 1;
+                                                    result.push(encode(key) + ':' + encode(item));
                                             }
                                         }
-                                        result.push('}');
-                                        return result.join('');
                                     }
-                            }
-                        }
-                    },
-                    format: function (source, opts) {
-                        source = String(source);
-                        var data = Array.prototype.slice.call(arguments, 1), toString = Object.prototype.toString;
-                        if (data.length) {
-                            data = data.length == 1 ?
-                                /* ie 下 Object.prototype.toString.call(null) == '[object Object]' */
-                                (opts !== null && (/\[object Array\]|\[object Object\]/.test(toString.call(opts))) ? opts : data)
-                                : data;
-                            return source.replace(/#\{(.+?)\}/g, function (match, key) {
-                                var replacer = data[key];
-                                // chrome 下 typeof /a/ == 'function'
-                                if ('[object Function]' == toString.call(replacer)) {
-                                    replacer = replacer(key);
+                                    result.push('}');
+                                    return result.join('');
                                 }
-                                return ('undefined' == typeof replacer ? '' : replacer);
-                            });
                         }
-                        return source;
-                    },
-                    /**
-                     *截断字符串（中文/全角2，英文/数字/半角1），默认用“…”补足省略，类似Smarty中的limitlen插件
-                     *@str  输入字符串
-                     *@len  截断长度
-                     *@tail 省略字符
-                     */
-                    subByte: function (str, len, tail) {
-                        var a = [], s = str.split('');
-                        tail = tail || '…';
-                        for (var i = 0, l = s.length; i < l; i++) {
-                            if (s[i].charCodeAt(0) > 255) {
-                                a.push("*");
+                    }
+                },
+                format: function (source, opts) {
+                    source = String(source);
+                    var data = Array.prototype.slice.call(arguments, 1), toString = Object.prototype.toString;
+                    if (data.length) {
+                        data = data.length == 1 ?
+                            /* ie 下 Object.prototype.toString.call(null) == '[object Object]' */
+                            (opts !== null && (/\[object Array\]|\[object Object\]/.test(toString.call(opts))) ? opts : data)
+                            : data;
+                        return source.replace(/#\{(.+?)\}/g, function (match, key) {
+                            var replacer = data[key];
+                            // chrome 下 typeof /a/ == 'function'
+                            if ('[object Function]' == toString.call(replacer)) {
+                                replacer = replacer(key);
                             }
-                            a.push(s[i]);
+                            return ('undefined' == typeof replacer ? '' : replacer);
+                        });
+                    }
+                    return source;
+                },
+                /**
+                 *截断字符串（中文/全角2，英文/数字/半角1），默认用“…”补足省略，类似Smarty中的limitlen插件
+                 *@str  输入字符串
+                 *@len  截断长度
+                 *@tail 省略字符
+                 */
+                subByte: function (str, len, tail) {
+                    var a = [], s = str.split('');
+                    tail = tail || '…';
+                    for (var i = 0, l = s.length; i < l; i++) {
+                        if (s[i].charCodeAt(0) > 255) {
+                            a.push("*");
                         }
-                        if (len && len > 0 && a.length > len) {
-                            s = a.join("").substring(0, len - 1).replace(/\*/g, '') + tail;
-                        } else {
-                            return str;
-                        }
-                        return s;
-                    },
-                    /**
-                     *返回字符串长度（中文/全角2，英文/数字/半角1）
-                     *@str 输入字符串
-                     */
-                    getByteLength: function (str) {
-                        var a = [], s = str.split('');
-                        for (var i = 0, l = s.length; i < l; i++) {
-                            if (s[i].charCodeAt(0) > 255) {
-                                a.push("*");
-                            }
-                            a.push(s[i]);
-                        }
-                        return a.length;
-                    },
-                    _isValidKey: function (key) {
-                        // http://www.w3.org/Protocols/rfc2109/rfc2109
-                        // Syntax:  General
-                        // The two state management headers, Set-Cookie and Cookie, have common
-                        // syntactic properties involving attribute-value pairs.  The following
-                        // grammar uses the notation, and tokens DIGIT (decimal digits) and
-                        // token (informally, a sequence of non-special, non-white space
-                        // characters) from the HTTP/1.1 specification [RFC 2068] to describe
-                        // their syntax.
-                        // av-pairs   = av-pair *(";" av-pair)
-                        // av-pair    = attr ["=" value] ; optional value
-                        // attr       = token
-                        // value      = word
-                        // word       = token | quoted-string
-
-                        // http://www.ietf.org/rfc/rfc2068.txt
-                        // token      = 1*<any CHAR except CTLs or tspecials>
-                        // CHAR       = <any US-ASCII character (octets 0 - 127)>
-                        // CTL        = <any US-ASCII control character
-                        //              (octets 0 - 31) and DEL (127)>
-                        // tspecials  = "(" | ")" | "<" | ">" | "@"
-                        //              | "," | ";" | ":" | "\" | <">
-                        //              | "/" | "[" | "]" | "?" | "="
-                        //              | "{" | "}" | SP | HT
-                        // SP         = <US-ASCII SP, space (32)>
-                        // HT         = <US-ASCII HT, horizontal-tab (9)>
-                        return (new RegExp("^[^\\x00-\\x20\\x7f\\(\\)<>@,;:\\\\\\\"\\[\\]\\?=\\{\\}\\/\\u0080-\\uffff]+\x24")).test(key);
-                    },
-                    /**
-                     * 设置cookie的值，用encodeURIComponent进行编码
-                     * @name jQuery.setCookie
-                     * @function
-                     * @grammar jQuery.setCookie(key, value[, options])
-                     * @param {string} key 需要设置Cookie的键名
-                     * @param {string} value 需要设置Cookie的值
-                     * @param {Object} [options] 设置Cookie的其他可选参数
-                     * @config {string} [path] cookie路径
-                     * @config {Date|number} [expires] cookie过期时间,如果类型是数字的话, 单位是毫秒
-                     * @config {string} [domain] cookie域名
-                     * @config {string} [secure] cookie是否安全传输
-                     * @remark
-                      1. 注意：该方法会对cookie值进行encodeURIComponent编码。
-                      2. options参数包括：
-                        path:cookie路径
-                        expires:cookie过期时间，Number型，单位为毫秒。
-                        domain:cookie域名
-                        secure:cookie是否安全传输
-                     */
-                    setCookie: function (key, value, options) {
-                        value = encodeURIComponent(value);
-                        if (!jQuery._isValidKey(key)) {
-                            return;
-                        }
-
-                        options = options || {};
-                        //options.path = options.path || "/"; // meizz 20100402 设定一个初始值，方便后续的操作
-                        //berg 20100409 去掉，因为用户希望默认的path是当前路径，这样和浏览器对cookie的定义也是一致的
-
-                        // 计算cookie过期时间
-                        var expires = options.expires;
-                        if ('number' == typeof options.expires) {
-                            expires = new Date();
-                            expires.setTime(expires.getTime() + options.expires);
-                        }
-
-                        document.cookie =
-                            key + "=" + value
-                            + (options.path ? "; path=" + options.path : "")
-                            + (expires ? "; expires=" + expires.toGMTString() : "")
-                            + (options.domain ? "; domain=" + options.domain : "")
-                            + (options.secure ? "; secure" : '');
-                    },
-                    /**
-                     * 获取cookie的值，用decodeURIComponent进行解码
-                     * @name jQuery.getCookie
-                     * @function
-                     * @grammar jQuery.getCookie(key)
-                     * @param {string} key 需要获取Cookie的键名
-                     * @remark
-                     * 注意：该方法会对cookie值进行decodeURIComponent解码。
-                     *
-                     * @returns {string|null} cookie的值，获取不到时返回null
-                     */
-                    getCookie: function (key) {
-                        var value = '';
-                        if (jQuery._isValidKey(key)) {
-                            var reg = new RegExp("(^| )" + key + "=([^;]*)(;|\x24)"),
-                                result = reg.exec(document.cookie);
-                            if (result) {
-                                value = result[2] || null;
-                                if ('string' == typeof value) {
-                                    value = decodeURIComponent(value);
-                                    return value;
-                                }
-                            }
-                        }
-                        return null;
-                    },
-                    /**
-                     * 删除cookie的值
-                     * @name jQuery.removeCookie
-                     * @function
-                     * @grammar jQuery.removeCookie(key, options)
-                     * @param {string} key 需要删除Cookie的键名
-                     * @param {Object} options 需要删除的cookie对应的 path domain 等值
-                     */
-                    removeCookie: function (key, options) {
-                        options = options || {};
-                        options.expires = new Date(0);
-                        jQuery.setCookie(key, '', options);
-                    },
-
-                    /**
-                     *截断搜索query（中文/全角2，英文/数字/半角1），
-                     *@str  输入字符串
-                     *@len  截断长度， 默认为255字节
-                     */
-                    limitWd: function (str, len) {
-                        if (str === '') { return '' }
-
-                        // str转换成字符串
-                        str = str + '';
-                        var a = [],
-                            s = str.split(''),
-                            l = s.length,
-                            count = 0,
-                            maxCount = len || 255;
-
-                        if (l <= parseInt(maxCount / 2)) {
-                            return str;
-                        }
-
-                        for (var i = 0; i < l; i++) {
-                            if (s[i].charCodeAt(0) > 255) {
-                                count += 2;
-                            } else {
-                                count += 1;
-                            }
-
-                            if (count === maxCount) {
-                                s = str.substring(0, i + 1);
-                                return s;
-                            } else if (count > maxCount) {
-                                s = str.substring(0, i);
-                                return s;
-                            }
-                        }
+                        a.push(s[i]);
+                    }
+                    if (len && len > 0 && a.length > len) {
+                        s = a.join("").substring(0, len - 1).replace(/\*/g, '') + tail;
+                    } else {
                         return str;
                     }
-                });
-            </script>
-            <div id="content_right">
-                <div class="cr-offset command-container">
-                    <table cellpadding="0" cellspacing="0">
-                        <tr>
-                            <td align="left">
+                    return s;
+                },
+                /**
+                 *返回字符串长度（中文/全角2，英文/数字/半角1）
+                 *@str 输入字符串
+                 */
+                getByteLength: function (str) {
+                    var a = [], s = str.split('');
+                    for (var i = 0, l = s.length; i < l; i++) {
+                        if (s[i].charCodeAt(0) > 255) {
+                            a.push("*");
+                        }
+                        a.push(s[i]);
+                    }
+                    return a.length;
+                },
+                _isValidKey: function (key) {
+                    // http://www.w3.org/Protocols/rfc2109/rfc2109
+                    // Syntax:  General
+                    // The two state management headers, Set-Cookie and Cookie, have common
+                    // syntactic properties involving attribute-value pairs.  The following
+                    // grammar uses the notation, and tokens DIGIT (decimal digits) and
+                    // token (informally, a sequence of non-special, non-white space
+                    // characters) from the HTTP/1.1 specification [RFC 2068] to describe
+                    // their syntax.
+                    // av-pairs   = av-pair *(";" av-pair)
+                    // av-pair    = attr ["=" value] ; optional value
+                    // attr       = token
+                    // value      = word
+                    // word       = token | quoted-string
 
-                            </td>
-                        </tr>
-                    </table>
+                    // http://www.ietf.org/rfc/rfc2068.txt
+                    // token      = 1*<any CHAR except CTLs or tspecials>
+                    // CHAR       = <any US-ASCII character (octets 0 - 127)>
+                    // CTL        = <any US-ASCII control character
+                    //              (octets 0 - 31) and DEL (127)>
+                    // tspecials  = "(" | ")" | "<" | ">" | "@"
+                    //              | "," | ";" | ":" | "\" | <">
+                    //              | "/" | "[" | "]" | "?" | "="
+                    //              | "{" | "}" | SP | HT
+                    // SP         = <US-ASCII SP, space (32)>
+                    // HT         = <US-ASCII HT, horizontal-tab (9)>
+                    return (new RegExp("^[^\\x00-\\x20\\x7f\\(\\)<>@,;:\\\\\\\"\\[\\]\\?=\\{\\}\\/\\u0080-\\uffff]+\x24")).test(key);
+                },
+                /**
+                 * 设置cookie的值，用encodeURIComponent进行编码
+                 * @name jQuery.setCookie
+                 * @function
+                 * @grammar jQuery.setCookie(key, value[, options])
+                 * @param {string} key 需要设置Cookie的键名
+                 * @param {string} value 需要设置Cookie的值
+                 * @param {Object} [options] 设置Cookie的其他可选参数
+                 * @config {string} [path] cookie路径
+                 * @config {Date|number} [expires] cookie过期时间,如果类型是数字的话, 单位是毫秒
+                 * @config {string} [domain] cookie域名
+                 * @config {string} [secure] cookie是否安全传输
+                 * @remark
+                  1. 注意：该方法会对cookie值进行encodeURIComponent编码。
+                  2. options参数包括：
+                    path:cookie路径
+                    expires:cookie过期时间，Number型，单位为毫秒。
+                    domain:cookie域名
+                    secure:cookie是否安全传输
+                 */
+                setCookie: function (key, value, options) {
+                    value = encodeURIComponent(value);
+                    if (!jQuery._isValidKey(key)) {
+                        return;
+                    }
+
+                    options = options || {};
+                    //options.path = options.path || "/"; // meizz 20100402 设定一个初始值，方便后续的操作
+                    //berg 20100409 去掉，因为用户希望默认的path是当前路径，这样和浏览器对cookie的定义也是一致的
+
+                    // 计算cookie过期时间
+                    var expires = options.expires;
+                    if ('number' == typeof options.expires) {
+                        expires = new Date();
+                        expires.setTime(expires.getTime() + options.expires);
+                    }
+
+                    document.cookie =
+                        key + "=" + value
+                        + (options.path ? "; path=" + options.path : "")
+                        + (expires ? "; expires=" + expires.toGMTString() : "")
+                        + (options.domain ? "; domain=" + options.domain : "")
+                        + (options.secure ? "; secure" : '');
+                },
+                /**
+                 * 获取cookie的值，用decodeURIComponent进行解码
+                 * @name jQuery.getCookie
+                 * @function
+                 * @grammar jQuery.getCookie(key)
+                 * @param {string} key 需要获取Cookie的键名
+                 * @remark
+                 * 注意：该方法会对cookie值进行decodeURIComponent解码。
+                 *
+                 * @returns {string|null} cookie的值，获取不到时返回null
+                 */
+                getCookie: function (key) {
+                    var value = '';
+                    if (jQuery._isValidKey(key)) {
+                        var reg = new RegExp("(^| )" + key + "=([^;]*)(;|\x24)"),
+                            result = reg.exec(document.cookie);
+                        if (result) {
+                            value = result[2] || null;
+                            if ('string' == typeof value) {
+                                value = decodeURIComponent(value);
+                                return value;
+                            }
+                        }
+                    }
+                    return null;
+                },
+                /**
+                 * 删除cookie的值
+                 * @name jQuery.removeCookie
+                 * @function
+                 * @grammar jQuery.removeCookie(key, options)
+                 * @param {string} key 需要删除Cookie的键名
+                 * @param {Object} options 需要删除的cookie对应的 path domain 等值
+                 */
+                removeCookie: function (key, options) {
+                    options = options || {};
+                    options.expires = new Date(0);
+                    jQuery.setCookie(key, '', options);
+                },
+
+                /**
+                 *截断搜索query（中文/全角2，英文/数字/半角1），
+                 *@str  输入字符串
+                 *@len  截断长度， 默认为255字节
+                 */
+                limitWd: function (str, len) {
+                    if (str === '') { return '' }
+
+                    // str转换成字符串
+                    str = str + '';
+                    var a = [],
+                        s = str.split(''),
+                        l = s.length,
+                        count = 0,
+                        maxCount = len || 255;
+
+                    if (l <= parseInt(maxCount / 2)) {
+                        return str;
+                    }
+
+                    for (var i = 0; i < l; i++) {
+                        if (s[i].charCodeAt(0) > 255) {
+                            count += 2;
+                        } else {
+                            count += 1;
+                        }
+
+                        if (count === maxCount) {
+                            s = str.substring(0, i + 1);
+                            return s;
+                        } else if (count > maxCount) {
+                            s = str.substring(0, i);
+                            return s;
+                        }
+                    }
+                    return str;
+                }
+            });
+        </script>
+        <script>
+
+            $('.bdvideo-entry a').on('click', function () {
+                var word = G('kw').value;
+                word = encodeURIComponent(word);
+                this.href = "//v.baidu.com/v?ie=utf-8&s=25&fr=ps_se&word=" + word;
+            })
+
+            bds.se.heightControl = {
+
+                check: function () {
+
+                    return $("#content_right").height() > $("#content_left").height();
+                },
+
+                cleanEC: function () {
+
+                    var bd_1 = $(".ec_bdtg"), bd_2 = $("#ec_im_container").children("div"), bd_2_c = bd_2.length, bd_2_p = bd_2_c - 1;
+
+                    if (bds.se.heightControl.check()) {
+                        if (bd_1 && bd_1.length) {
+                            bd_1.css("display", "none");
+                        }
+                    }
+
+                    while (bds.se.heightControl.check() && bd_2_p >= 0) {
+                        var targetDom = bd_2[bd_2_p];
+                        $(targetDom).css("display", "none");
+                        bd_2_p--;
+                    }
+
+                },
+
+                cleanRes: function () {
+                    var rightResults = $("#content_right").find(".result-op"), rightResultsCount = rightResults.length, rightResultsPos = rightResultsCount - 1;
+                    /*右侧只有一条知心结果的时候默认放在页面不可见区域，判断右侧高度加上知心高度是否不大于左侧高度，如果不大于知心则放在正确位置显示，否则继续隐藏，mod by zengjiangli*/
+                    if (rightResultsPos == 0) {
+                        var parent = $(rightResults[0]).parent();
+                        // if (($('#content_right').height() + rightResults.height()) < $('#content_left').height()) {
+                        parent.css({
+                            'position': 'static'
+                        });
+                        // }
+                    }
+                    // else {
+                    /*多条知心结果则走之前的方案*/
+                    // while (bds.se.heightControl.check() && rightResultsPos > 0){
+                    //     var targetDom = rightResults[rightResultsPos];
+                    //     $(targetDom).css("display","none");
+                    //     rightResultsPos--;
+                    // }
+                    // }
+                },
+                cleanBdEntry: function () {
+                    if ($(".command-container").height() === 0) {
+                        $(".bdvideo-entry").hide();
+                    }
+                },
+
+                init: function () {
+                    bds.se.heightControl.cleanEC();
+                    bds.se.heightControl.cleanRes();
+                    bds.se.heightControl.cleanBdEntry();
+                }
+
+            };
+            $(function () {
+                bds.se.heightControl.init();
+            });
+        </script>
+
+
+
+
+        <div class="video_list_container content_default content1 video-no-tag">
+            <!-- https://www.bilibili.com/video/av838685470/ -->
+            <div class="video_list video_short" srcid="4185">
+                <a href="https://www.bilibili.com/video/av838685470/" target="_blank"
+                    class="small_img_con border-radius">
+                    <div class="c-img c-img-radius-large short-video-img">
+                        <span class="c-img-border c-img-radius-large"></span>
+                        <img src="https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft13.baidu.com%2Fit%2Fu%3D1176726142095002203%2C18268544641664376929%26fm%3D3008%26app%3D3011%26f%3DJPEG&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=0188e79aef517ec75f338bb3a666e160"
+                            alt="" class="border-radius">
+                        <div class="time_con">
+                            <i class="c-icon" style="vertical-align: inherit;">&#xe627;</i><!--
+                --><span class="video_play_timer">38:00</span>
+                        </div>
+                    </div>
+                </a>
+                <div class="video_small_intro">
+                    <a href="https://www.bilibili.com/video/av838685470/" target="_blank" class="video-title c-link"
+                        style="margin-bottom: 1px;">
+                        家政服务人员职业化培训视频
+                    </a>
+                    <div class="c-color-gray2 video-no-font" style="height: 21px;">
+                        <span class="wetSource c-font-normal">来源：B站</span>
+                        <span class="c-font-normal">发布时间：2020-07-02</span>
+                    </div>
                 </div>
             </div>
             <script>
-
-                $('.bdvideo-entry a').on('click', function () {
-                    var word = G('kw').value;
-                    word = encodeURIComponent(word);
-                    this.href = "//v.baidu.com/v?ie=utf-8&s=25&fr=ps_se&word=" + word;
-                })
-
-                bds.se.heightControl = {
-
-                    check: function () {
-
-                        return $("#content_right").height() > $("#content_left").height();
-                    },
-
-                    cleanEC: function () {
-
-                        var bd_1 = $(".ec_bdtg"), bd_2 = $("#ec_im_container").children("div"), bd_2_c = bd_2.length, bd_2_p = bd_2_c - 1;
-
-                        if (bds.se.heightControl.check()) {
-                            if (bd_1 && bd_1.length) {
-                                bd_1.css("display", "none");
-                            }
-                        }
-
-                        while (bds.se.heightControl.check() && bd_2_p >= 0) {
-                            var targetDom = bd_2[bd_2_p];
-                            $(targetDom).css("display", "none");
-                            bd_2_p--;
-                        }
-
-                    },
-
-                    cleanRes: function () {
-                        var rightResults = $("#content_right").find(".result-op"), rightResultsCount = rightResults.length, rightResultsPos = rightResultsCount - 1;
-                        /*右侧只有一条知心结果的时候默认放在页面不可见区域，判断右侧高度加上知心高度是否不大于左侧高度，如果不大于知心则放在正确位置显示，否则继续隐藏，mod by zengjiangli*/
-                        if (rightResultsPos == 0) {
-                            var parent = $(rightResults[0]).parent();
-                            // if (($('#content_right').height() + rightResults.height()) < $('#content_left').height()) {
-                            parent.css({
-                                'position': 'static'
-                            });
-                            // }
-                        }
-                        // else {
-                        /*多条知心结果则走之前的方案*/
-                        // while (bds.se.heightControl.check() && rightResultsPos > 0){
-                        //     var targetDom = rightResults[rightResultsPos];
-                        //     $(targetDom).css("display","none");
-                        //     rightResultsPos--;
-                        // }
-                        // }
-                    },
-                    cleanBdEntry: function () {
-                        if ($(".command-container").height() === 0) {
-                            $(".bdvideo-entry").hide();
-                        }
-                    },
-
-                    init: function () {
-                        bds.se.heightControl.cleanEC();
-                        bds.se.heightControl.cleanRes();
-                        bds.se.heightControl.cleanBdEntry();
-                    }
-
-                };
                 $(function () {
-                    bds.se.heightControl.init();
+                    if (!bds.se.sendVideoImgErrorLog) {
+                        return;
+                    }
+                    bds.se.sendVideoImgErrorLog({
+                        imgSrc: 'https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft13.baidu.com%2Fit%2Fu%3D1176726142095002203%2C18268544641664376929%26fm%3D3008%26app%3D3011%26f%3DJPEG&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=0188e79aef517ec75f338bb3a666e160',
+                        pd: 'video',
+                        pos: 'tab'
+                    });
                 });
             </script>
 
-
-            <div id="content_left">
-
-                <div class="video_list_container content_default content1 video-no-tag">
-                    <!-- https://www.bilibili.com/video/av838685470/ -->
-                    <div class="video_list video_short" srcid="4185">
-                        <a href="https://www.bilibili.com/video/av838685470/" target="_blank"
-                            class="small_img_con border-radius">
-                            <div class="c-img c-img-radius-large short-video-img">
-                                <span class="c-img-border c-img-radius-large"></span>
-                                <img src="https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft13.baidu.com%2Fit%2Fu%3D1176726142095002203%2C18268544641664376929%26fm%3D3008%26app%3D3011%26f%3DJPEG&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=0188e79aef517ec75f338bb3a666e160"
-                                    alt="" class="border-radius">
-                                <div class="time_con">
-                                    <i class="c-icon" style="vertical-align: inherit;">&#xe627;</i><!--
-                --><span class="video_play_timer">38:00</span>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="video_small_intro">
-                            <a href="https://www.bilibili.com/video/av838685470/" target="_blank"
-                                class="video-title c-link" style="margin-bottom: 1px;">
-                                家政服务人员职业化培训视频
-                            </a>
-                            <div class="c-color-gray2 video-no-font" style="height: 21px;">
-                                <span class="wetSource c-font-normal">来源：B站</span>
-                                <span class="c-font-normal">发布时间：2020-07-02</span>
-                            </div>
-                        </div>
-                    </div>
-                    <script>
-                        $(function () {
-                            if (!bds.se.sendVideoImgErrorLog) {
-                                return;
-                            }
-                            bds.se.sendVideoImgErrorLog({
-                                imgSrc: 'https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft13.baidu.com%2Fit%2Fu%3D1176726142095002203%2C18268544641664376929%26fm%3D3008%26app%3D3011%26f%3DJPEG&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=0188e79aef517ec75f338bb3a666e160',
-                                pd: 'video',
-                                pos: 'tab'
-                            });
-                        });
-                    </script>
-
-                    <!-- https://haokan.baidu.com/v?pd=wisenatural&vid=1090317545258153750 -->
-                    <div class="video_list video_short" srcid="4185">
-                        <a href="https://haokan.baidu.com/v?pd=wisenatural&vid=1090317545258153750" target="_blank"
-                            class="small_img_con border-radius">
-                            <div class="c-img c-img-radius-large short-video-img">
-                                <span class="c-img-border c-img-radius-large"></span>
-                                <img src="https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft15.baidu.com%2Fit%2Fu%3D4588791965979925530%2C565360326750339424%26fm%3D3008%26app%3D3011%26f%3DJPEG&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=f00cb8e7902a128e6d331a3c4be2064b"
-                                    alt="" class="border-radius">
-                                <div class="time_con">
-                                    <i class="c-icon" style="vertical-align: inherit;">&#xe627;</i><!--
+            <!-- https://haokan.baidu.com/v?pd=wisenatural&vid=1090317545258153750 -->
+            <div class="video_list video_short" srcid="4185">
+                <a href="https://haokan.baidu.com/v?pd=wisenatural&vid=1090317545258153750" target="_blank"
+                    class="small_img_con border-radius">
+                    <div class="c-img c-img-radius-large short-video-img">
+                        <span class="c-img-border c-img-radius-large"></span>
+                        <img src="https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft15.baidu.com%2Fit%2Fu%3D4588791965979925530%2C565360326750339424%26fm%3D3008%26app%3D3011%26f%3DJPEG&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=f00cb8e7902a128e6d331a3c4be2064b"
+                            alt="" class="border-radius">
+                        <div class="time_con">
+                            <i class="c-icon" style="vertical-align: inherit;">&#xe627;</i><!--
                 --><span class="video_play_timer">01:38</span>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="video_small_intro">
-                            <a href="https://haokan.baidu.com/v?pd=wisenatural&vid=1090317545258153750" target="_blank"
-                                class="video-title c-link" style="margin-bottom: 1px;">
-                                家政服务技能培训,不出家门学本领
-                            </a>
-                            <div class="c-color-gray2 video-no-font" style="height: 21px;">
-                                <span class="wetSource c-font-normal">来源：好看视频</span>
-                                <span class="c-font-normal">发布时间：2020-08-03</span>
-                            </div>
                         </div>
                     </div>
-                    <script>
-                        $(function () {
-                            if (!bds.se.sendVideoImgErrorLog) {
-                                return;
-                            }
-                            bds.se.sendVideoImgErrorLog({
-                                imgSrc: 'https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft15.baidu.com%2Fit%2Fu%3D4588791965979925530%2C565360326750339424%26fm%3D3008%26app%3D3011%26f%3DJPEG&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=f00cb8e7902a128e6d331a3c4be2064b',
-                                pd: 'video',
-                                pos: 'tab'
-                            });
-                        });
-                    </script>
-
-                    <!-- https://haokan.baidu.com/v?pd=wisenatural&vid=6432227822752232109 -->
-                    <div class="video_list video_short" srcid="4185">
-                        <a href="https://haokan.baidu.com/v?pd=wisenatural&vid=6432227822752232109" target="_blank"
-                            class="small_img_con border-radius">
-                            <div class="c-img c-img-radius-large short-video-img">
-                                <span class="c-img-border c-img-radius-large"></span>
-                                <img src="https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft13.baidu.com%2Fit%2Fu%3D2829688366%2C1213194814%26fm%3D225%26app%3D113%26f%3DJPEG%3Fw%3D657%26h%3D370%26s%3D4EDB6E9E1D5C4DC8187CACF403005033&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=902b9a2785f640dcdd7f7bc11378b3b0"
-                                    alt="" class="border-radius">
-                                <div class="time_con">
-                                    <i class="c-icon" style="vertical-align: inherit;">&#xe627;</i><!--
-                --><span class="video_play_timer">01:41:33</span>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="video_small_intro">
-                            <a href="https://haokan.baidu.com/v?pd=wisenatural&vid=6432227822752232109" target="_blank"
-                                class="video-title c-link" style="margin-bottom: 1px;">
-                                【巾帼家政职业经理人培训】新发展阶段家政服务的发展与数字化转型
-                            </a>
-                            <div class="c-color-gray2 video-no-font" style="height: 21px;">
-                                <span class="wetSource c-font-normal">来源：好看视频</span>
-                                <span class="c-font-normal">发布时间：2022-04-20</span>
-                            </div>
-                        </div>
+                </a>
+                <div class="video_small_intro">
+                    <a href="https://haokan.baidu.com/v?pd=wisenatural&vid=1090317545258153750" target="_blank"
+                        class="video-title c-link" style="margin-bottom: 1px;">
+                        家政服务技能培训,不出家门学本领
+                    </a>
+                    <div class="c-color-gray2 video-no-font" style="height: 21px;">
+                        <span class="wetSource c-font-normal">来源：好看视频</span>
+                        <span class="c-font-normal">发布时间：2020-08-03</span>
                     </div>
-                    <script>
-                        $(function () {
-                            if (!bds.se.sendVideoImgErrorLog) {
-                                return;
-                            }
-                            bds.se.sendVideoImgErrorLog({
-                                imgSrc: 'https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft13.baidu.com%2Fit%2Fu%3D2829688366%2C1213194814%26fm%3D225%26app%3D113%26f%3DJPEG%3Fw%3D657%26h%3D370%26s%3D4EDB6E9E1D5C4DC8187CACF403005033&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=902b9a2785f640dcdd7f7bc11378b3b0',
-                                pd: 'video',
-                                pos: 'tab'
-                            });
-                        });
-                    </script>
-
-                    <!-- http://www.bilibili.com/video/BV1Ya411t7T9 -->
-                    <div class="video_list video_short" srcid="4185">
-                        <a href="http://www.bilibili.com/video/BV1Ya411t7T9" target="_blank"
-                            class="small_img_con border-radius">
-                            <div class="c-img c-img-radius-large short-video-img">
-                                <span class="c-img-border c-img-radius-large"></span>
-                                <img src="https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft13.baidu.com%2Fit%2Fu%3D1333295283%2C2260118702%26fm%3D225%26app%3D113%26f%3DJPEG%3Fw%3D1152%26h%3D720%26s%3DE6135F8C4B345A9C907C2DD00300C0BA&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=e55c21a11415a16af88c6d99e0d50e40"
-                                    alt="" class="border-radius">
-                                <div class="time_con">
-                                    <i class="c-icon" style="vertical-align: inherit;">&#xe627;</i><!--
-                --><span class="video_play_timer">15:20</span>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="video_small_intro">
-                            <a href="http://www.bilibili.com/video/BV1Ya411t7T9" target="_blank"
-                                class="video-title c-link" style="margin-bottom: 1px;">
-                                家政服务员上岗仪容仪表及家庭衣橱管理基本技能和素养(张家港市吉上吉职业培训学校家政课堂)
-                            </a>
-                            <div class="c-color-gray2 video-no-font" style="height: 21px;">
-                                <span class="wetSource c-font-normal">来源：哔哩哔哩</span>
-                                <span class="c-font-normal">发布时间：2022-03-21</span>
-                            </div>
-                        </div>
-                    </div>
-                    <script>
-                        $(function () {
-                            if (!bds.se.sendVideoImgErrorLog) {
-                                return;
-                            }
-                            bds.se.sendVideoImgErrorLog({
-                                imgSrc: 'https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft13.baidu.com%2Fit%2Fu%3D1333295283%2C2260118702%26fm%3D225%26app%3D113%26f%3DJPEG%3Fw%3D1152%26h%3D720%26s%3DE6135F8C4B345A9C907C2DD00300C0BA&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=e55c21a11415a16af88c6d99e0d50e40',
-                                pd: 'video',
-                                pos: 'tab'
-                            });
-                        });
-                    </script>
-
-                    <!-- http://v.youku.com/v_show/id_XMjc1NDAzMzQ4MA==.html -->
-                    <div class="video_list video_short" srcid="4185">
-                        <a href="http://v.youku.com/v_show/id_XMjc1NDAzMzQ4MA==.html" target="_blank"
-                            class="small_img_con border-radius">
-                            <div class="c-img c-img-radius-large short-video-img">
-                                <span class="c-img-border c-img-radius-large"></span>
-                                <img src="https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft10.baidu.com%2Fit%2Fu%3D1635378331%2C2744115810%26fm%3D220%26app%3D103%26f%3DJPEG&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=65fa7db045b31e1208bf3002c5bcec9d"
-                                    alt="" class="border-radius">
-                                <div class="time_con">
-                                    <i class="c-icon" style="vertical-align: inherit;">&#xe627;</i><!--
-                --><span class="video_play_timer">03:26</span>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="video_small_intro">
-                            <a href="http://v.youku.com/v_show/id_XMjc1NDAzMzQ4MA==.html" target="_blank"
-                                class="video-title c-link" style="margin-bottom: 1px;">
-                                梅州市《+1家政人才》月嫂培训视频课程第三期
-                            </a>
-                            <div class="c-color-text c-font-normal" style="margin-bottom: 4px;">
-                                简介：关注《+1家政人才》公众号，全程免费【母婴护理技...</div>
-                            <div class="c-color-gray2 video-no-font" style="height: 21px;">
-                                <span class="wetSource c-font-normal">来源：优酷</span>
-                                <span class="c-font-normal">发布时间：2017-05-09</span>
-                            </div>
-                        </div>
-                    </div>
-                    <script>
-                        $(function () {
-                            if (!bds.se.sendVideoImgErrorLog) {
-                                return;
-                            }
-                            bds.se.sendVideoImgErrorLog({
-                                imgSrc: 'https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft10.baidu.com%2Fit%2Fu%3D1635378331%2C2744115810%26fm%3D220%26app%3D103%26f%3DJPEG&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=65fa7db045b31e1208bf3002c5bcec9d',
-                                pd: 'video',
-                                pos: 'tab'
-                            });
-                        });
-                    </script>
-
-                    <!-- https://haokan.baidu.com/v?pd=wisenatural&vid=7167098049481272643 -->
-                    <div class="video_list video_short" srcid="4185">
-                        <a href="https://haokan.baidu.com/v?pd=wisenatural&vid=7167098049481272643" target="_blank"
-                            class="small_img_con border-radius">
-                            <div class="c-img c-img-radius-large short-video-img">
-                                <span class="c-img-border c-img-radius-large"></span>
-                                <img src="https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft14.baidu.com%2Fit%2Fu%3D6422272966380690356%2C11541020769632666820%26fm%3D3008%26app%3D3011%26f%3DJPEG&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=b5241b390162d5bb73a141415417d3d7"
-                                    alt="" class="border-radius">
-                                <div class="time_con">
-                                    <i class="c-icon" style="vertical-align: inherit;">&#xe627;</i><!--
-                --><span class="video_play_timer">02:33</span>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="video_small_intro">
-                            <a href="https://haokan.baidu.com/v?pd=wisenatural&vid=7167098049481272643" target="_blank"
-                                class="video-title c-link" style="margin-bottom: 1px;">
-                                家政培训,具体的培训内容是什么,老王告诉你!
-                            </a>
-                            <div class="c-color-text c-font-normal" style="margin-bottom: 4px;">简介：家政培训的具体内容！
-                            </div>
-                            <div class="c-color-gray2 video-no-font" style="height: 21px;">
-                                <span class="wetSource c-font-normal">来源：好看视频</span>
-                                <span class="c-font-normal">发布时间：2020-06-01</span>
-                            </div>
-                        </div>
-                    </div>
-                    <script>
-                        $(function () {
-                            if (!bds.se.sendVideoImgErrorLog) {
-                                return;
-                            }
-                            bds.se.sendVideoImgErrorLog({
-                                imgSrc: 'https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft14.baidu.com%2Fit%2Fu%3D6422272966380690356%2C11541020769632666820%26fm%3D3008%26app%3D3011%26f%3DJPEG&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=b5241b390162d5bb73a141415417d3d7',
-                                pd: 'video',
-                                pos: 'tab'
-                            });
-                        });
-                    </script>
-
-                    <!-- http://baijiahao.baidu.com/s?id=1660236470850428425 -->
-                    <div class="video_list video_short" srcid="4185">
-                        <a href="http://baijiahao.baidu.com/s?id=1660236470850428425" target="_blank"
-                            class="small_img_con border-radius">
-                            <div class="c-img c-img-radius-large short-video-img">
-                                <span class="c-img-border c-img-radius-large"></span>
-                                <img src="https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft14.baidu.com%2Fit%2Fu%3D12123868801632719833%2C15179135180226255247%26fm%3D3008%26app%3D3011%26f%3DJPEG&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=62eb5b67c9290a0234eab0b8906de3a5"
-                                    alt="" class="border-radius">
-                                <div class="time_con">
-                                    <i class="c-icon" style="vertical-align: inherit;">&#xe627;</i><!--
-                --><span class="video_play_timer">01:29:58</span>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="video_small_intro">
-                            <a href="http://baijiahao.baidu.com/s?id=1660236470850428425" target="_blank"
-                                class="video-title c-link" style="margin-bottom: 1px;">
-                                居家防疫网上学技|振安区妇联女性微课堂「家政服务技能培训」
-                            </a>
-                            <div class="c-color-text c-font-normal" style="margin-bottom: 4px;">
-                                简介：当前，新型冠状病毒感染的肺炎疫情形势依然严峻，...</div>
-                            <div class="c-color-gray2 video-no-font" style="height: 21px;">
-                                <span class="wetSource c-font-normal">来源：辽宁丹东振安妇联</span>
-                                <span class="c-font-normal">发布时间：2020-03-06</span>
-                            </div>
-                        </div>
-                    </div>
-                    <script>
-                        $(function () {
-                            if (!bds.se.sendVideoImgErrorLog) {
-                                return;
-                            }
-                            bds.se.sendVideoImgErrorLog({
-                                imgSrc: 'https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft14.baidu.com%2Fit%2Fu%3D12123868801632719833%2C15179135180226255247%26fm%3D3008%26app%3D3011%26f%3DJPEG&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=62eb5b67c9290a0234eab0b8906de3a5',
-                                pd: 'video',
-                                pos: 'tab'
-                            });
-                        });
-                    </script>
-
-                    <!-- https://m.v.qq.com/page/o/0/1/o0396xume61.html -->
-                    <div class="video_list video_short" srcid="4185">
-                        <a href="https://m.v.qq.com/page/o/0/1/o0396xume61.html" target="_blank"
-                            class="small_img_con border-radius">
-                            <div class="c-img c-img-radius-large short-video-img">
-                                <span class="c-img-border c-img-radius-large"></span>
-                                <img src="https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft14.baidu.com%2Fit%2Fu%3D9575084900166150058%2C11805443344148312760%26fm%3D3008%26app%3D3011%26f%3DJPEG&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=a4f100a8c03fd3fa02c27423e5b690ee"
-                                    alt="" class="border-radius">
-                                <div class="time_con">
-                                    <i class="c-icon" style="vertical-align: inherit;">&#xe627;</i><!--
-                --><span class="video_play_timer">03:04</span>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="video_small_intro">
-                            <a href="https://m.v.qq.com/page/o/0/1/o0396xume61.html" target="_blank"
-                                class="video-title c-link" style="margin-bottom: 1px;">
-                                家政培训之衣物洗涤
-                            </a>
-                            <div class="c-color-gray2 video-no-font" style="height: 21px;">
-                                <span class="wetSource c-font-normal">来源：腾讯视频</span>
-                                <span class="c-font-normal">发布时间：2017-04-25</span>
-                            </div>
-                        </div>
-                    </div>
-                    <script>
-                        $(function () {
-                            if (!bds.se.sendVideoImgErrorLog) {
-                                return;
-                            }
-                            bds.se.sendVideoImgErrorLog({
-                                imgSrc: 'https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft14.baidu.com%2Fit%2Fu%3D9575084900166150058%2C11805443344148312760%26fm%3D3008%26app%3D3011%26f%3DJPEG&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=a4f100a8c03fd3fa02c27423e5b690ee',
-                                pd: 'video',
-                                pos: 'tab'
-                            });
-                        });
-                    </script>
-
-                    <!-- https://haokan.baidu.com/v?pd=wisenatural&vid=10604813081738536630 -->
-                    <div class="video_list video_short" srcid="4185">
-                        <a href="https://haokan.baidu.com/v?pd=wisenatural&vid=10604813081738536630" target="_blank"
-                            class="small_img_con border-radius">
-                            <div class="c-img c-img-radius-large short-video-img">
-                                <span class="c-img-border c-img-radius-large"></span>
-                                <img src="https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft14.baidu.com%2Fit%2Fu%3D2633950022%2C4018236049%26fm%3D225%26app%3D113%26f%3DJPEG%3Fw%3D658%26h%3D370%26s%3D8122CBB24A300A942418D8B70300B040&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=19096e67105ab9585c439fc834e19777"
-                                    alt="" class="border-radius">
-                                <div class="time_con">
-                                    <i class="c-icon" style="vertical-align: inherit;">&#xe627;</i><!--
-                --><span class="video_play_timer">00:59</span>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="video_small_intro">
-                            <a href="https://haokan.baidu.com/v?pd=wisenatural&vid=10604813081738536630" target="_blank"
-                                class="video-title c-link" style="margin-bottom: 1px;">
-                                保定唐县：家政培训进社区，方便实用接地气
-                            </a>
-                            <div class="c-color-gray2 video-no-font" style="height: 21px;">
-                                <span class="wetSource c-font-normal">来源：好看视频</span>
-                                <span class="c-font-normal">发布时间：3天前</span>
-                            </div>
-                        </div>
-                    </div>
-                    <script>
-                        $(function () {
-                            if (!bds.se.sendVideoImgErrorLog) {
-                                return;
-                            }
-                            bds.se.sendVideoImgErrorLog({
-                                imgSrc: 'https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft14.baidu.com%2Fit%2Fu%3D2633950022%2C4018236049%26fm%3D225%26app%3D113%26f%3DJPEG%3Fw%3D658%26h%3D370%26s%3D8122CBB24A300A942418D8B70300B040&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=19096e67105ab9585c439fc834e19777',
-                                pd: 'video',
-                                pos: 'tab'
-                            });
-                        });
-                    </script>
-
-                    <!-- https://haokan.baidu.com/v?pd=wisenatural&vid=9766175103414004242 -->
-                    <div class="video_list video_short" srcid="4185">
-                        <a href="https://haokan.baidu.com/v?pd=wisenatural&vid=9766175103414004242" target="_blank"
-                            class="small_img_con border-radius">
-                            <div class="c-img c-img-radius-large short-video-img">
-                                <span class="c-img-border c-img-radius-large"></span>
-                                <img src="https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft14.baidu.com%2Fit%2Fu%3D2827171808%2C4182645243%26fm%3D225%26app%3D113%26f%3DJPEG%3Fw%3D1280%26h%3D720%26s%3DAC42F21400126DDC0D1355C30300B0B8&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=01f640a7ac701d45b0a2da96b2ed4103"
-                                    alt="" class="border-radius">
-                                <div class="time_con">
-                                    <i class="c-icon" style="vertical-align: inherit;">&#xe627;</i><!--
-                --><span class="video_play_timer">01:38</span>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="video_small_intro">
-                            <a href="https://haokan.baidu.com/v?pd=wisenatural&vid=9766175103414004242" target="_blank"
-                                class="video-title c-link" style="margin-bottom: 1px;">
-                                国家免费培训班家政怎么培训
-                            </a>
-                            <div class="c-color-text c-font-normal" style="margin-bottom: 4px;">
-                                简介：1、家政礼仪，包括道德品质，行为准则，言谈举止，...</div>
-                            <div class="c-color-gray2 video-no-font" style="height: 21px;">
-                                <span class="wetSource c-font-normal">来源：好看视频</span>
-                                <span class="c-font-normal">发布时间：2022-01-08</span>
-                            </div>
-                        </div>
-                    </div>
-                    <script>
-                        $(function () {
-                            if (!bds.se.sendVideoImgErrorLog) {
-                                return;
-                            }
-                            bds.se.sendVideoImgErrorLog({
-                                imgSrc: 'https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft14.baidu.com%2Fit%2Fu%3D2827171808%2C4182645243%26fm%3D225%26app%3D113%26f%3DJPEG%3Fw%3D1280%26h%3D720%26s%3DAC42F21400126DDC0D1355C30300B0B8&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=01f640a7ac701d45b0a2da96b2ed4103',
-                                pd: 'video',
-                                pos: 'tab'
-                            });
-                        });
-                    </script>
-
                 </div>
             </div>
+            <script>
+                $(function () {
+                    if (!bds.se.sendVideoImgErrorLog) {
+                        return;
+                    }
+                    bds.se.sendVideoImgErrorLog({
+                        imgSrc: 'https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft15.baidu.com%2Fit%2Fu%3D4588791965979925530%2C565360326750339424%26fm%3D3008%26app%3D3011%26f%3DJPEG&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=f00cb8e7902a128e6d331a3c4be2064b',
+                        pd: 'video',
+                        pos: 'tab'
+                    });
+                });
+            </script>
 
+            <!-- https://haokan.baidu.com/v?pd=wisenatural&vid=6432227822752232109 -->
+            <div class="video_list video_short" srcid="4185">
+                <a href="https://haokan.baidu.com/v?pd=wisenatural&vid=6432227822752232109" target="_blank"
+                    class="small_img_con border-radius">
+                    <div class="c-img c-img-radius-large short-video-img">
+                        <span class="c-img-border c-img-radius-large"></span>
+                        <img src="https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft13.baidu.com%2Fit%2Fu%3D2829688366%2C1213194814%26fm%3D225%26app%3D113%26f%3DJPEG%3Fw%3D657%26h%3D370%26s%3D4EDB6E9E1D5C4DC8187CACF403005033&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=902b9a2785f640dcdd7f7bc11378b3b0"
+                            alt="" class="border-radius">
+                        <div class="time_con">
+                            <i class="c-icon" style="vertical-align: inherit;">&#xe627;</i><!--
+                --><span class="video_play_timer">01:41:33</span>
+                        </div>
+                    </div>
+                </a>
+                <div class="video_small_intro">
+                    <a href="https://haokan.baidu.com/v?pd=wisenatural&vid=6432227822752232109" target="_blank"
+                        class="video-title c-link" style="margin-bottom: 1px;">
+                        【巾帼家政职业经理人培训】新发展阶段家政服务的发展与数字化转型
+                    </a>
+                    <div class="c-color-gray2 video-no-font" style="height: 21px;">
+                        <span class="wetSource c-font-normal">来源：好看视频</span>
+                        <span class="c-font-normal">发布时间：2022-04-20</span>
+                    </div>
+                </div>
+            </div>
+            <script>
+                $(function () {
+                    if (!bds.se.sendVideoImgErrorLog) {
+                        return;
+                    }
+                    bds.se.sendVideoImgErrorLog({
+                        imgSrc: 'https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft13.baidu.com%2Fit%2Fu%3D2829688366%2C1213194814%26fm%3D225%26app%3D113%26f%3DJPEG%3Fw%3D657%26h%3D370%26s%3D4EDB6E9E1D5C4DC8187CACF403005033&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=902b9a2785f640dcdd7f7bc11378b3b0',
+                        pd: 'video',
+                        pos: 'tab'
+                    });
+                });
+            </script>
 
+            <!-- http://www.bilibili.com/video/BV1Ya411t7T9 -->
+            <div class="video_list video_short" srcid="4185">
+                <a href="http://www.bilibili.com/video/BV1Ya411t7T9" target="_blank"
+                    class="small_img_con border-radius">
+                    <div class="c-img c-img-radius-large short-video-img">
+                        <span class="c-img-border c-img-radius-large"></span>
+                        <img src="https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft13.baidu.com%2Fit%2Fu%3D1333295283%2C2260118702%26fm%3D225%26app%3D113%26f%3DJPEG%3Fw%3D1152%26h%3D720%26s%3DE6135F8C4B345A9C907C2DD00300C0BA&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=e55c21a11415a16af88c6d99e0d50e40"
+                            alt="" class="border-radius">
+                        <div class="time_con">
+                            <i class="c-icon" style="vertical-align: inherit;">&#xe627;</i><!--
+                --><span class="video_play_timer">15:20</span>
+                        </div>
+                    </div>
+                </a>
+                <div class="video_small_intro">
+                    <a href="http://www.bilibili.com/video/BV1Ya411t7T9" target="_blank" class="video-title c-link"
+                        style="margin-bottom: 1px;">
+                        家政服务员上岗仪容仪表及家庭衣橱管理基本技能和素养(张家港市吉上吉职业培训学校家政课堂)
+                    </a>
+                    <div class="c-color-gray2 video-no-font" style="height: 21px;">
+                        <span class="wetSource c-font-normal">来源：哔哩哔哩</span>
+                        <span class="c-font-normal">发布时间：2022-03-21</span>
+                    </div>
+                </div>
+            </div>
+            <script>
+                $(function () {
+                    if (!bds.se.sendVideoImgErrorLog) {
+                        return;
+                    }
+                    bds.se.sendVideoImgErrorLog({
+                        imgSrc: 'https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft13.baidu.com%2Fit%2Fu%3D1333295283%2C2260118702%26fm%3D225%26app%3D113%26f%3DJPEG%3Fw%3D1152%26h%3D720%26s%3DE6135F8C4B345A9C907C2DD00300C0BA&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=e55c21a11415a16af88c6d99e0d50e40',
+                        pd: 'video',
+                        pos: 'tab'
+                    });
+                });
+            </script>
+
+            <!-- http://v.youku.com/v_show/id_XMjc1NDAzMzQ4MA==.html -->
+            <div class="video_list video_short" srcid="4185">
+                <a href="http://v.youku.com/v_show/id_XMjc1NDAzMzQ4MA==.html" target="_blank"
+                    class="small_img_con border-radius">
+                    <div class="c-img c-img-radius-large short-video-img">
+                        <span class="c-img-border c-img-radius-large"></span>
+                        <img src="https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft10.baidu.com%2Fit%2Fu%3D1635378331%2C2744115810%26fm%3D220%26app%3D103%26f%3DJPEG&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=65fa7db045b31e1208bf3002c5bcec9d"
+                            alt="" class="border-radius">
+                        <div class="time_con">
+                            <i class="c-icon" style="vertical-align: inherit;">&#xe627;</i><!--
+                --><span class="video_play_timer">03:26</span>
+                        </div>
+                    </div>
+                </a>
+                <div class="video_small_intro">
+                    <a href="http://v.youku.com/v_show/id_XMjc1NDAzMzQ4MA==.html" target="_blank"
+                        class="video-title c-link" style="margin-bottom: 1px;">
+                        梅州市《+1家政人才》月嫂培训视频课程第三期
+                    </a>
+                    <div class="c-color-text c-font-normal" style="margin-bottom: 4px;">
+                        简介：关注《+1家政人才》公众号，全程免费【母婴护理技...</div>
+                    <div class="c-color-gray2 video-no-font" style="height: 21px;">
+                        <span class="wetSource c-font-normal">来源：优酷</span>
+                        <span class="c-font-normal">发布时间：2017-05-09</span>
+                    </div>
+                </div>
+            </div>
+            <script>
+                $(function () {
+                    if (!bds.se.sendVideoImgErrorLog) {
+                        return;
+                    }
+                    bds.se.sendVideoImgErrorLog({
+                        imgSrc: 'https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft10.baidu.com%2Fit%2Fu%3D1635378331%2C2744115810%26fm%3D220%26app%3D103%26f%3DJPEG&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=65fa7db045b31e1208bf3002c5bcec9d',
+                        pd: 'video',
+                        pos: 'tab'
+                    });
+                });
+            </script>
+
+            <!-- https://haokan.baidu.com/v?pd=wisenatural&vid=7167098049481272643 -->
+            <div class="video_list video_short" srcid="4185">
+                <a href="https://haokan.baidu.com/v?pd=wisenatural&vid=7167098049481272643" target="_blank"
+                    class="small_img_con border-radius">
+                    <div class="c-img c-img-radius-large short-video-img">
+                        <span class="c-img-border c-img-radius-large"></span>
+                        <img src="https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft14.baidu.com%2Fit%2Fu%3D6422272966380690356%2C11541020769632666820%26fm%3D3008%26app%3D3011%26f%3DJPEG&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=b5241b390162d5bb73a141415417d3d7"
+                            alt="" class="border-radius">
+                        <div class="time_con">
+                            <i class="c-icon" style="vertical-align: inherit;">&#xe627;</i><!--
+                --><span class="video_play_timer">02:33</span>
+                        </div>
+                    </div>
+                </a>
+                <div class="video_small_intro">
+                    <a href="https://haokan.baidu.com/v?pd=wisenatural&vid=7167098049481272643" target="_blank"
+                        class="video-title c-link" style="margin-bottom: 1px;">
+                        家政培训,具体的培训内容是什么,老王告诉你!
+                    </a>
+                    <div class="c-color-text c-font-normal" style="margin-bottom: 4px;">简介：家政培训的具体内容！
+                    </div>
+                    <div class="c-color-gray2 video-no-font" style="height: 21px;">
+                        <span class="wetSource c-font-normal">来源：好看视频</span>
+                        <span class="c-font-normal">发布时间：2020-06-01</span>
+                    </div>
+                </div>
+            </div>
+            <script>
+                $(function () {
+                    if (!bds.se.sendVideoImgErrorLog) {
+                        return;
+                    }
+                    bds.se.sendVideoImgErrorLog({
+                        imgSrc: 'https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft14.baidu.com%2Fit%2Fu%3D6422272966380690356%2C11541020769632666820%26fm%3D3008%26app%3D3011%26f%3DJPEG&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=b5241b390162d5bb73a141415417d3d7',
+                        pd: 'video',
+                        pos: 'tab'
+                    });
+                });
+            </script>
+
+            <!-- http://baijiahao.baidu.com/s?id=1660236470850428425 -->
+            <div class="video_list video_short" srcid="4185">
+                <a href="http://baijiahao.baidu.com/s?id=1660236470850428425" target="_blank"
+                    class="small_img_con border-radius">
+                    <div class="c-img c-img-radius-large short-video-img">
+                        <span class="c-img-border c-img-radius-large"></span>
+                        <img src="https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft14.baidu.com%2Fit%2Fu%3D12123868801632719833%2C15179135180226255247%26fm%3D3008%26app%3D3011%26f%3DJPEG&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=62eb5b67c9290a0234eab0b8906de3a5"
+                            alt="" class="border-radius">
+                        <div class="time_con">
+                            <i class="c-icon" style="vertical-align: inherit;">&#xe627;</i><!--
+                --><span class="video_play_timer">01:29:58</span>
+                        </div>
+                    </div>
+                </a>
+                <div class="video_small_intro">
+                    <a href="http://baijiahao.baidu.com/s?id=1660236470850428425" target="_blank"
+                        class="video-title c-link" style="margin-bottom: 1px;">
+                        居家防疫网上学技|振安区妇联女性微课堂「家政服务技能培训」
+                    </a>
+                    <div class="c-color-text c-font-normal" style="margin-bottom: 4px;">
+                        简介：当前，新型冠状病毒感染的肺炎疫情形势依然严峻，...</div>
+                    <div class="c-color-gray2 video-no-font" style="height: 21px;">
+                        <span class="wetSource c-font-normal">来源：辽宁丹东振安妇联</span>
+                        <span class="c-font-normal">发布时间：2020-03-06</span>
+                    </div>
+                </div>
+            </div>
+            <script>
+                $(function () {
+                    if (!bds.se.sendVideoImgErrorLog) {
+                        return;
+                    }
+                    bds.se.sendVideoImgErrorLog({
+                        imgSrc: 'https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft14.baidu.com%2Fit%2Fu%3D12123868801632719833%2C15179135180226255247%26fm%3D3008%26app%3D3011%26f%3DJPEG&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=62eb5b67c9290a0234eab0b8906de3a5',
+                        pd: 'video',
+                        pos: 'tab'
+                    });
+                });
+            </script>
+
+            <!-- https://m.v.qq.com/page/o/0/1/o0396xume61.html -->
+            <div class="video_list video_short" srcid="4185">
+                <a href="https://m.v.qq.com/page/o/0/1/o0396xume61.html" target="_blank"
+                    class="small_img_con border-radius">
+                    <div class="c-img c-img-radius-large short-video-img">
+                        <span class="c-img-border c-img-radius-large"></span>
+                        <img src="https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft14.baidu.com%2Fit%2Fu%3D9575084900166150058%2C11805443344148312760%26fm%3D3008%26app%3D3011%26f%3DJPEG&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=a4f100a8c03fd3fa02c27423e5b690ee"
+                            alt="" class="border-radius">
+                        <div class="time_con">
+                            <i class="c-icon" style="vertical-align: inherit;">&#xe627;</i><!--
+                --><span class="video_play_timer">03:04</span>
+                        </div>
+                    </div>
+                </a>
+                <div class="video_small_intro">
+                    <a href="https://m.v.qq.com/page/o/0/1/o0396xume61.html" target="_blank" class="video-title c-link"
+                        style="margin-bottom: 1px;">
+                        家政培训之衣物洗涤
+                    </a>
+                    <div class="c-color-gray2 video-no-font" style="height: 21px;">
+                        <span class="wetSource c-font-normal">来源：腾讯视频</span>
+                        <span class="c-font-normal">发布时间：2017-04-25</span>
+                    </div>
+                </div>
+            </div>
+            <script>
+                $(function () {
+                    if (!bds.se.sendVideoImgErrorLog) {
+                        return;
+                    }
+                    bds.se.sendVideoImgErrorLog({
+                        imgSrc: 'https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft14.baidu.com%2Fit%2Fu%3D9575084900166150058%2C11805443344148312760%26fm%3D3008%26app%3D3011%26f%3DJPEG&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=a4f100a8c03fd3fa02c27423e5b690ee',
+                        pd: 'video',
+                        pos: 'tab'
+                    });
+                });
+            </script>
+
+            <!-- https://haokan.baidu.com/v?pd=wisenatural&vid=10604813081738536630 -->
+            <div class="video_list video_short" srcid="4185">
+                <a href="https://haokan.baidu.com/v?pd=wisenatural&vid=10604813081738536630" target="_blank"
+                    class="small_img_con border-radius">
+                    <div class="c-img c-img-radius-large short-video-img">
+                        <span class="c-img-border c-img-radius-large"></span>
+                        <img src="https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft14.baidu.com%2Fit%2Fu%3D2633950022%2C4018236049%26fm%3D225%26app%3D113%26f%3DJPEG%3Fw%3D658%26h%3D370%26s%3D8122CBB24A300A942418D8B70300B040&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=19096e67105ab9585c439fc834e19777"
+                            alt="" class="border-radius">
+                        <div class="time_con">
+                            <i class="c-icon" style="vertical-align: inherit;">&#xe627;</i><!--
+                --><span class="video_play_timer">00:59</span>
+                        </div>
+                    </div>
+                </a>
+                <div class="video_small_intro">
+                    <a href="https://haokan.baidu.com/v?pd=wisenatural&vid=10604813081738536630" target="_blank"
+                        class="video-title c-link" style="margin-bottom: 1px;">
+                        保定唐县：家政培训进社区，方便实用接地气
+                    </a>
+                    <div class="c-color-gray2 video-no-font" style="height: 21px;">
+                        <span class="wetSource c-font-normal">来源：好看视频</span>
+                        <span class="c-font-normal">发布时间：3天前</span>
+                    </div>
+                </div>
+            </div>
+            <script>
+                $(function () {
+                    if (!bds.se.sendVideoImgErrorLog) {
+                        return;
+                    }
+                    bds.se.sendVideoImgErrorLog({
+                        imgSrc: 'https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft14.baidu.com%2Fit%2Fu%3D2633950022%2C4018236049%26fm%3D225%26app%3D113%26f%3DJPEG%3Fw%3D658%26h%3D370%26s%3D8122CBB24A300A942418D8B70300B040&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=19096e67105ab9585c439fc834e19777',
+                        pd: 'video',
+                        pos: 'tab'
+                    });
+                });
+            </script>
+
+            <!-- https://haokan.baidu.com/v?pd=wisenatural&vid=9766175103414004242 -->
+            <div class="video_list video_short" srcid="4185">
+                <a href="https://haokan.baidu.com/v?pd=wisenatural&vid=9766175103414004242" target="_blank"
+                    class="small_img_con border-radius">
+                    <div class="c-img c-img-radius-large short-video-img">
+                        <span class="c-img-border c-img-radius-large"></span>
+                        <img src="https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft14.baidu.com%2Fit%2Fu%3D2827171808%2C4182645243%26fm%3D225%26app%3D113%26f%3DJPEG%3Fw%3D1280%26h%3D720%26s%3DAC42F21400126DDC0D1355C30300B0B8&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=01f640a7ac701d45b0a2da96b2ed4103"
+                            alt="" class="border-radius">
+                        <div class="time_con">
+                            <i class="c-icon" style="vertical-align: inherit;">&#xe627;</i><!--
+                --><span class="video_play_timer">01:38</span>
+                        </div>
+                    </div>
+                </a>
+                <div class="video_small_intro">
+                    <a href="https://haokan.baidu.com/v?pd=wisenatural&vid=9766175103414004242" target="_blank"
+                        class="video-title c-link" style="margin-bottom: 1px;">
+                        国家免费培训班家政怎么培训
+                    </a>
+                    <div class="c-color-text c-font-normal" style="margin-bottom: 4px;">
+                        简介：1、家政礼仪，包括道德品质，行为准则，言谈举止，...</div>
+                    <div class="c-color-gray2 video-no-font" style="height: 21px;">
+                        <span class="wetSource c-font-normal">来源：好看视频</span>
+                        <span class="c-font-normal">发布时间：2022-01-08</span>
+                    </div>
+                </div>
+            </div>
+            <script>
+                $(function () {
+                    if (!bds.se.sendVideoImgErrorLog) {
+                        return;
+                    }
+                    bds.se.sendVideoImgErrorLog({
+                        imgSrc: 'https://gimg4.baidu.com/poster/src=http%3A%2F%2Ft14.baidu.com%2Fit%2Fu%3D2827171808%2C4182645243%26fm%3D225%26app%3D113%26f%3DJPEG%3Fw%3D1280%26h%3D720%26s%3DAC42F21400126DDC0D1355C30300B0B8&refer=http%3A%2F%2Fwww.baidu.com&app=2004&size=f352,234&n=0&g=0n&q=100?sec=1680856529&t=01f640a7ac701d45b0a2da96b2ed4103',
+                        pd: 'video',
+                        pos: 'tab'
+                    });
+                });
+            </script>
 
         </div>
+
+
+
+
+
 
 
     </div>
 
 
-    <div class="s_side_wrapper">
-        <div class="side-entry aging-entry">
-            <div class="aging-entry-inner"></div>
-            <div class="side-toast">辅助模式</div>
-        </div>
-    </div>
     <script>
         $(function () {
             $('.s_side_wrapper').click(function () {
