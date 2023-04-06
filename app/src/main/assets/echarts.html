@@ -1,0 +1,200 @@
+<!--
+	此示例下载自 https://echarts.apache.org/examples/zh/editor.html?c=line-gradient&code=PTAEAcCcFMBdYJbUgWgQcwHYHsYCgBjbTAZ1lABMBDWK0AXlAG08mAiAJgAYOBmFLvy4BWNgBpQADmEAWYcIC6Y1px5ChANnGgAnDIDsMjkpXc-Aofu36AjDckyT7M-oGTtNrhp6LlztRYCOtoOwhz6Tqrmgiie2jq8dhF-Ua52IWG8kpEugTYc1olcyaYBMTa8IbzVvDll_DYyHhzCjY4pueWiEp62XO2l0Q1aEpIcOvol_kOxVhIyBvl1M_bW4TK1HfWxwT1eOnrLrtwexbyHWzMcNtoaGmZHgRwFEjp2LY8xfPEckjY6n34HCaPQqvEEgJQLVOhnskI4I1AFTsXGyl2OcyRdl4GgB6Ke7gkGhkxS48N2oA0kgmU1SgXBIWkqMhiWs-l4fE-MgEN1GOIOXIELyx718gyE3ME2mE-lRA2mEoEINAsj-ZPx_QE3Upgn0igUAG48IRiGRKDQqDYGMwFULYtq7BpsZ8OLFEfkJhMXbMPLwwiTvatRt5cYGKeybFTvSdRsIcbTOq7roUWsYNUnhVT7mnxXbvq8EX9o8qKqjJAmykntcDWs9o-7zjoIemoZi7K0NJtczwoYSRYJ5XSYlxeaBwTpceru0JhdwnXdIVKerx9M8NIuS78_WLbcPtdI5Duh5p4gYjIvMbZ7IPOkI-55vB8NUIKaFwpC4q9EjYKytR9I-DRadYmFCNig_So-RqD9N1aBYPwdYpPEcQ1jSIUhyGoWBoAAGQQM1GCwqgADoAFsqHAAAKAAzABXTACEQYhQEohBsNIgBKUAAG88FAUAYFgWjIEwUA2OgUimDJI0AF8OKNdCzQANyoAAbWjcPw8hCItMiKJo-jGIQZjWPYrjeP4wThNE8TJJsVC5KNE0MPNbC8LIK0dNoGw9KouiGKY0TTIk8y-IEuBrLE9ipIc-TnOUtSNPc2BPNcy1fIMgLjKC2zQssiKRKiiSmHs2S4uwcBAutCzQBAUAAFkqAAa2gUB0EgKgKCQTByFUhBMFagALZBoDCpT8NotTGvAAAuZgwv4mr-P4khBuwAB3ObqLUkhoGUZbltgABPcBoDmgBydDEEwWjsFokhzv2g7QF2yAkBIABJTAKGgAAPOauCeg7SP6gGgeW8j_rHYQuFhrgFtAGTwaW5bVo2radr2hH-OO06Lqu_rbvux7sZe5B3q-n6oZscH-K60joFIbKwdJkHMBZ57QEhuasM0shiNUxn0FgQbQBQJEEZksKTBxtjBbmlgDpR_jBeo2B8cZ7DIBJznsN-9XQHOwAac0ACHNADZTQBTRUAJ7NAH6_c7JeR0nYAqi75AAUh157VYNy7NeQT2Dr1n3ACg5c3rbtyXpae53sFUxBZp4hHYDe9B0GQC6qF-_D7f4pGwt-gBBLOSAVhHlbSnmaD52AHbL0miMrtytJp0n2oQChKb-uabEj_iZdAI6i_w0ulbzpXW7ejvvq7iWDqlvunrbigR-W8uACNsHgbBSIu7wPdr8fdZdw295z5b59AfvXvelfFqdk6zsNvqBoD1G1vWgBlI7SI31SMdU3atMK6gBUupauB9V73zxk_fq0BX4rXfl_H-sd_6APrhaOaoCkrNyAYXYundqZAMHvg6e1Ne6XzwDJA0QA
+	⚠ 请注意，该图表不是 Apache ECharts 官方示例，而是由用户代码生成的。请注意鉴别其内容。
+-->
+<!DOCTYPE html>
+<html lang="zh-CN" style="height: 100%">
+<head>
+  <meta charset="utf-8">
+</head>
+<body style="height: 100%; margin: 0">
+  <div id="container" style="height: 100%"></div>
+
+  
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
+  <!-- Uncomment this line if you want to dataTool extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.2/dist/extension/dataTool.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to use gl extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-gl@2/dist/echarts-gl.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to echarts-stat extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-stat@latest/dist/ecStat.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to use map
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/china.js"></script>
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/world.js"></script>
+  -->
+  <!-- Uncomment these two lines if you want to use bmap extension
+  <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=YOUR_API_KEY"></script>
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.2/dist/extension/bmap.min.js"></script>
+  -->
+
+  <script type="text/javascript">
+    var dom = document.getElementById('container');
+    var myChart = echarts.init(dom, null, {
+      renderer: 'canvas',
+      useDirtyRect: false
+    });
+    var app = {};
+    
+    var option;
+
+    // prettier-ignore
+const data = [
+["2023-03-05", 85455],
+["2023-03-06", 94742],
+["2023-03-07", 71184],
+["2023-03-08", 106025],
+["2023-03-09", 84527],
+["2023-03-10", 93117],
+["2023-03-11", 85238],
+["2023-03-12", 73107],
+["2023-03-13", 83333],
+["2023-03-14", 125144],
+["2023-03-15", 107104],
+["2023-03-16", 82977],
+["2023-03-17", 44712],
+["2023-03-18", 72743],
+["2023-03-19", 106994],
+["2023-03-20", 107394],
+["2023-03-21", 66202],
+["2023-03-22", 91125],
+["2023-03-23", 92819],
+["2023-03-24", 113303],
+["2023-03-25", 107418],
+["2023-03-26", 131108],
+["2023-03-27", 111369],
+["2023-03-28", 64070],
+["2023-03-29", 68977],
+["2023-03-30", 88508],
+["2023-03-31", 77323],
+["2023-04-01", 83699],
+["2023-04-02", 111125],
+["2023-04-03", 57084],
+["2023-04-04", 54810],
+["2023-04-05", 60375]];
+
+const data1 = [["2023-02-15", 116113],
+["2023-02-16", 129797],
+["2023-02-17", 135240],
+["2023-02-18", 86069],
+["2023-02-19", 73168],
+["2023-02-20", 85367],
+["2023-02-21", 73252],
+["2023-02-22", 68622],
+["2023-02-23", 92681],
+["2023-02-24", 130887],
+["2023-02-25", 245122],
+["2023-02-26", 139903],
+["2023-02-27", 115163],
+["2023-02-28", 111034],
+["2023-03-01", 309690],
+["2023-03-02", 206166],
+["2023-03-03", 137226],
+["2023-03-04", 128355],
+["2023-03-05", 85455],
+["2023-03-06", 94742],
+["2023-03-07", 71184],
+["2023-03-08", 106025],
+["2023-03-09", 84527],
+["2023-03-10", 93117],
+["2023-03-11", 85238],
+["2023-03-12", 73107],
+["2023-03-13", 83333],
+["2023-03-14", 125144],
+["2023-03-15", 107104]];
+
+const dateList = data.map(function (item) {
+  return item[0];
+});
+const valueList = data.map(function (item) {
+  return item[1];
+});
+
+const dateList1 = data1.map(function (item) {
+  return item[0];
+});
+const valueList1 = data1.map(function (item) {
+  return item[1];
+});
+option = {
+  // Make gradient line here
+  visualMap: [
+    {
+      show: false,
+      type: 'continuous',
+      seriesIndex: 0,
+      min: 0,
+      max: 350000
+    },
+    {
+      show: false,
+      type: 'continuous',
+      seriesIndex: 1,
+      dimension: 0,
+      min: 0,
+      max: dateList.length - 1
+    }
+  ],
+  title: [
+    {
+      left: 'center',
+      text: '本月收入曲线'
+    },
+    {
+      top: '55%',
+      left: 'center',
+      text: '上月收入曲线'
+    }
+  ],
+  tooltip: {
+    trigger: 'axis'
+  },
+  xAxis: [
+    {
+      data: dateList
+    },
+    {
+      data: dateList1,
+      gridIndex: 1
+    }
+  ],
+  yAxis: [
+    {},
+    {
+      gridIndex: 1
+    }
+  ],
+  grid: [
+    {
+      bottom: '60%'
+    },
+    {
+      top: '60%'
+    }
+  ],
+  series: [
+    {
+      type: 'line',
+      showSymbol: false,
+      data: valueList
+    },
+    {
+      type: 'line',
+      showSymbol: false,
+      data: valueList1,
+      xAxisIndex: 1,
+      yAxisIndex: 1
+    }
+  ]
+};
+
+    if (option && typeof option === 'object') {
+      myChart.setOption(option);
+    }
+
+    window.addEventListener('resize', myChart.resize);
+  </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/name_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="姓名" />
+
+    <EditText
+        android:id="@+id/age_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="年龄"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/service_year_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="服务年限"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/skill_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="技能" />
+
+    <EditText
+        android:id="@+id/remark_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="客户好评" />
+</LinearLayout>
