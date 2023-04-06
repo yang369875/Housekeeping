@@ -71,7 +71,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="从业人员: 133223元" />
+                            android:text="从业人员: 83  忙碌中：47  空闲：35" />
 
                         <LinearLayout
                             android:id="@+id/llSubEmployees"

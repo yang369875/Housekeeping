@@ -19,19 +19,31 @@ import com.example.myapplication.R;
 
 import java.util.ArrayList;
 import java.util.List;
-public class UserFragment extends Fragment implements View.OnClickListener{
+// 这是一个Fragment类，用于显示用户列表视图
+public class UserFragment extends Fragment implements View.OnClickListener {
+
+    // 用户容器，用于显示所有用户的视图列表
     private LinearLayout userContainer;
+
+    // 用户列表，用于存储所有的用户信息
     private List<User> userList = new ArrayList<>();
+
+    // 用户计数器，用于为新添加的用户生成一个独一无二的编号
     private int userCount = 0;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+    // 创建视图
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // 加载布局文件
         View root = inflater.inflate(R.layout.fragment_user, container, false);
+
+        // 获取用户视图容器和添加用户按钮
         userContainer = root.findViewById(R.id.user_container);
         Button addUserButton = root.findViewById(R.id.add_user_button);
+
+        // 给添加用户按钮设置点击事件监听器
         addUserButton.setOnClickListener(this);
 
-        //添加默认数据
+        // 添加默认数据
         User user1 = new User(1, "张阿姨", 43, 12, "育护婴幼", "98%");
         User user2 = new User(2, "李阿姨", 38, 8, "家务清洁", "95%");
         User user3 = new User(3, "林阿姨", 56, 22, "烹饪美食", "99%");
@@ -41,7 +53,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         User user7 = new User(7, "孙大爷", 68, 30, "照顾宠物", "85%");
         User user8 = new User(8, "钱阿姨", 51, 14, "保姆月嫂", "96%");
         User user9 = new User(9, "周爷爷", 84, 35, "老年护理", "91%");
-
+        // 将默认数据添加到用户列表中
         userList.add(user1);
         userList.add(user2);
         userList.add(user3);
@@ -55,7 +67,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
 
         return root;
     }
-
+    // 实现View.OnClickListener接口的onClick方法，处理添加用户按钮的点击事件
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

@@ -22,6 +22,8 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        // 在调用 Activity 的 onCreate() 方法时，第一次创建 ViewModel 实例。
+        // 重新创建的 Activity 将获得由第一个 Activity 创建的同一个 MyViewModel 实例。
         HomeViewModel homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
 
